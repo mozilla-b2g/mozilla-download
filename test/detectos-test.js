@@ -18,7 +18,7 @@ suite('detect', function() {
 
       var name = input.platform + ' arch ' + input.arch;
       test(name, function() {
-        assert.equal(runner.detectOS(input), expected);
+        assert.equal(runner.detectOS('b2g', input), expected);
       });
     });
   });
