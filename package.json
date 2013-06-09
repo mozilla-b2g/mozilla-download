@@ -1,0 +1,26 @@
+{
+  "name": "mozilla-runner",
+  "version": "0.0.1",
+  "author": "James Lal [:lightsofapollo]",
+  "description": "Download, run and manage firefox/b2g-desktop runtimes",
+  "main": "index.js",
+  "keywords": [
+  ],
+  "dependencies" : {
+    "firefox-get": "~0.0.4",
+    "dmg": "~0.0.2",
+    "temp": "~0.5",
+    "ncp": "~0.4"
+  },
+  "devDependencies": {
+    "mocha": "~1.7"
+  },
+  "license": "MIT",
+  "engine": {
+    "node": ">=0.4"
+  },
+
+  "scripts": {
+    "test": "make test-node"
+  }
+}
