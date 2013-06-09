@@ -7,6 +7,7 @@
   "keywords": [
   ],
   "dependencies" : {
+    "debug": "*",
     "firefox-get": "~0.0.4",
     "dmg": "~0.0.2",
     "temp": "~0.5",

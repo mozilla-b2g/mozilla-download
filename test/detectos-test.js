@@ -1,5 +1,5 @@
-suite('mozilla-runner', function() {
-  var runner = require('../lib/index');
+suite('detect', function() {
+  var runner = require('../lib/detectos');
   var assert = require('assert');
 
   suite('#detectOS', function() {
