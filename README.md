@@ -1,10 +1,40 @@
-# Mozilla Runner
+# Mozilla Download
 
-Aims to be the simplest way to download / manipulate gecko
-runtimes (like b2g-desktop or firefox) via node.
+Downloads mozilla product binaries. Version detection / support based on [firefox-get](https://github.com/jsantell/node-firefox-get).
 
-The primary goal is to leverage Mozilla runner to build a
-integrated marionette test environment.
+## Usage
+
+``` js
+var moz = require('mozilla-download');
+
+// detect which platform this computer uses
+moz.detectOS('firefox'); // platform for firefox
+moz.detectOS('b2g'); // platform for b2g
+
+// download firefox nightly
+moz.download(
+  'firefox', // product can be either firefox or b2g
+  moz.detectOS('firefox'), // helper to determine OS based on process see firefox-get for options
+  'nightly', // channel
+  __dirname + '/firefox', // save target
+  functon(err, path) {
+    // path is the same as save targe
+  }
+);
+
+// download b2g desktop nightly
+moz.download(
+  'b2g', // product can be either firefox or b2g
+  moz.detectOS('b2g'), // helper to determine OS based on process see firefox-get for options
+  'nightly', // channel
+  __dirname + '/b2g', // save target
+  functon(err, path) {
+    // path is the same as save targe
+  }
+);
+
+```
+
 
 ## License
 
