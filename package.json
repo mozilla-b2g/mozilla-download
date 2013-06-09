@@ -14,7 +14,7 @@
     "debug": "*",
     "firefox-get": "~0.0.4",
     "dmg": "~0.0.2",
-    "temp": "~0.5",
+    "tmp": "~0.0.20",
     "ncp": "~0.4"
   },
   "devDependencies": {
