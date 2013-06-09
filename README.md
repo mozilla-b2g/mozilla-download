@@ -1,6 +1,6 @@
 # Mozilla Download
 
-Downloads mozilla product binaries. Version detection / support based on [firefox-get](https://github.com/jsantell/node-firefox-get).
+Downloads mozilla product binaries. Version detection / support using [firefox-get](https://github.com/jsantell/node-firefox-get).
 
 ## Usage
 
