@@ -1,6 +1,6 @@
 suite('download', function() {
   var assert = require('assert');
-  var runner = require('../lib/download');
+  var runner = require('../index');
   var fs = require('fs');
 
   suite('mac64', function() {
@@ -9,7 +9,8 @@ suite('download', function() {
       return test('cannot run mac64 tests on non darwin platforms');
 
     test('package expansion', function(done) {
-      runner.download('b2g', 'mac64', 'release', path, function(err, path) {
+      var options = { os: 'mac64', version: 'release' };
+      runner.download('b2g', path, options, function(err, path) {
         var stat = fs.statSync(path);
         assert.ok(stat.isDirectory());
         done();
@@ -17,22 +18,20 @@ suite('download', function() {
     });
   });
 
-  suite.only('linux-x86', function() {
+  suite('linux-x86', function() {
     var path = __dirname + '/linux-out/';
     if (process.platform === 'win32')
       return test('cannot run on windows');
 
     test('package expansion', function(done) {
-      runner.download('b2g', 'linux-x86_64', 'release', path, function(err, path) {
+      var options = { os: 'linux-x86_64', version: 'release' };
+      runner.download('b2g', path, options, function(err, path) {
         var stat = fs.statSync(path);
         assert.ok(stat.isDirectory());
         done();
       });
     });
 
-  });
-
-  suite('win32', function() {
   });
 
 });

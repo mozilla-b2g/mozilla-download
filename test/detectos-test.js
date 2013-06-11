@@ -1,5 +1,5 @@
 suite('detect', function() {
-  var runner = require('../lib/detectos');
+  var detectOS = require('../lib/detectos');
   var assert = require('assert');
 
   suite('#detectOS', function() {
@@ -18,7 +18,7 @@ suite('detect', function() {
 
       var name = input.platform + ' arch ' + input.arch;
       test(name, function() {
-        assert.equal(runner.detectOS('b2g', input), expected);
+        assert.equal(detectOS('b2g', input), expected);
       });
     });
   });

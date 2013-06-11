@@ -3,19 +3,13 @@ var moz = require('../../index'),
     spawn = require('child_process').spawn,
     fs = require('fs');
 
-var os = moz.detectOS('firefox');
-
 function download(callback) {
   if (fs.existsSync(binaryPath)) {
     return process.nextTick(callback);
   }
 
-  console.log('download start', os);
-
   moz.download(
     'firefox',
-    os,
-    'nightly',
     binaryPath,
     function(err, path) {
       if (err) throw err;
@@ -26,16 +20,13 @@ function download(callback) {
 
 function launch() {
   var bin = 'firefox-bin';
-
-  if (os.indexOf('mac') === 0)
+  if (process.platform.indexOf('darwin') === 0)
     bin = 'Contents/MacOS/firefox';
 
   console.log('launching binary', bin);
-
-  var process = spawn(binaryPath + bin);
-
+  var child = spawn(binaryPath + bin);
   setTimeout(function() {
-    process.kill();
+    child.kill();
   }, 5000);
 
 }
