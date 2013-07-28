@@ -1,3 +1,6 @@
+# 0.2.1
+  - oops! tell npm about the new binary
+
 # 0.2.0
   - add binary mozilla-download
   - don't attempt to clobber existing directories with error-less

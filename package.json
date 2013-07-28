@@ -1,15 +1,22 @@
 {
   "name": "mozilla-download",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "James Lal [:lightsofapollo]",
   "description": "Download firefox/b2g-desktop runtimes",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mozilla-b2g/mozilla-download.git"
+  },
   "keywords": [
     "firefox os",
     "gecko",
     "b2g-desktop",
     "firefox"
   ],
+  "bin": {
+    "mozilla-download": "./bin/mozilla-download"
+  },
   "dependencies" : {
     "debug": "*",
     "firefox-get": "~0.0.4",
@@ -25,7 +32,6 @@
   "engine": {
     "node": ">=0.4"
   },
-
   "scripts": {
     "test": "make test-node"
   }
