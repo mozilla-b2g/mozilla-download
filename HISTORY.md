@@ -1,3 +1,8 @@
+# 0.2.0
+  - add binary mozilla-download
+  - don't attempt to clobber existing directories with error-less
+    and error resolving modes (new .strict option).
+
 # 0.1.0
   - make .download API eaiser to use with default autodetection and less
     required params

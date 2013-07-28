@@ -1,9 +1,21 @@
+default: test
+
+test/extract-out:
+	mkdir test/extract-out
+
+test/fixtures:
+	mkdir test/fixtures
+	node fixtures.js
+
+node_modules:
+	npm install
+
 .PHONY: test
-test:
-	./node_modules/mocha/bin/mocha --ui tdd \
-		test/detect-os.js \
+test: node_modules test/fixtures test/extract-out
+	./node_modules/mocha/bin/mocha \
+		test/detectos-test.js \
 		test/extract-test.js
 
 .PHONY: test-full
-test-full:
-	./node_modules/mocha/bin/mocha --reporter spec --ui tdd -t 100s
+test-full: node_modules test/fixtures test/extract-out
+	./node_modules/mocha/bin/mocha --reporter spec -t 100s

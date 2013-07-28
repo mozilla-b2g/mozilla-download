@@ -3,6 +3,27 @@ suite('download', function() {
   var runner = require('../index');
   var fs = require('fs');
 
+  suite('when path exists', function() {
+    var path = __dirname + '/fixtures/b2g.dmg';
+    test('non-strict', function(done) {
+      runner.download('b2g', path, function(err, givenPath) {
+        assert.equal(givenPath, path);
+        done(err);
+      });
+    });
+
+    test('strict', function(done) {
+      runner.download('b2g', path, { strict: true }, function(err, givenPath) {
+        if (!err) {
+          done(new Error('strict must return an error when file exists'));
+          return;
+        }
+        done();
+      });
+    });
+  });
+
+
   suite('mac64', function() {
     var path = __dirname + '/darwin-out/';
     if (process.platform !== 'darwin')

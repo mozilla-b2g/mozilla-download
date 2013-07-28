@@ -36,7 +36,6 @@ suite('extract', function() {
 
   suite('product: b2g', function() {
     suite('dmg', function() {
-      this.timeout('20s');
       if (process.platform !== 'darwin')
         return test('dmg can only be run on process.platform === darwin');
 
@@ -52,7 +51,6 @@ suite('extract', function() {
     });
 
     suite('tar.bz2', function() {
-      this.timeout('20s');
       if (process.platform === 'win32')
         return test('cannot run on windows');
 
@@ -70,7 +68,6 @@ suite('extract', function() {
 
   suite('product: firefox', function() {
     suite('nightly dmg', function() {
-      this.timeout('20s');
       if (process.platform !== 'darwin')
         return test('dmg can only be run on process.platform === darwin');
 
@@ -86,7 +83,6 @@ suite('extract', function() {
     });
 
     suite('release dmg', function() {
-      this.timeout('20s');
       if (process.platform !== 'darwin')
         return test('dmg can only be run on process.platform === darwin');
 
@@ -102,7 +98,6 @@ suite('extract', function() {
     });
 
     suite('nightly tar.bz2', function() {
-      this.timeout('20s');
       if (process.platform === 'win32')
         return test('cannot run on windows');
 
@@ -118,7 +113,6 @@ suite('extract', function() {
     });
 
     suite('release tar.bz2', function() {
-      this.timeout('20s');
       if (process.platform === 'win32')
         return test('cannot run on windows');
 

@@ -6,11 +6,11 @@ var FIXTURE_ROOT = fsPath.join(__dirname, 'test', 'fixtures');
 var list = [
   // source, target
   [
-    'http://ftp.mozilla.org/pub/mozilla.org/b2g/nightly/latest-mozilla-central/b2g-23.0a1.multi.mac64.dmg',
+    'http://ftp.mozilla.org/pub/mozilla.org/b2g/nightly/latest-mozilla-central/b2g-25.0a1.multi.mac64.dmg',
     'b2g.dmg'
   ],
   [
-    'http://ftp.mozilla.org/pub/mozilla.org/b2g/nightly/latest-mozilla-central/b2g-24.0a1.multi.linux-x86_64.tar.bz2',
+    'http://ftp.mozilla.org/pub/mozilla.org/b2g/nightly/latest-mozilla-central/b2g-25.0a1.multi.linux-x86_64.tar.bz2',
     'b2g.tar.bz2'
   ],
   [
