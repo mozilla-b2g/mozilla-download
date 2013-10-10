@@ -1,9 +1,9 @@
 {
   "name": "mozilla-download",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "author": "James Lal [:lightsofapollo]",
   "description": "Download firefox/b2g-desktop runtimes",
-  "main": "index.js",
+  "main": "lib/download.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/mozilla-b2g/mozilla-download.git"
@@ -19,7 +19,7 @@
   },
   "dependencies" : {
     "debug": "*",
-    "firefox-get": "~0.0.4",
+    "mozilla-get-url": "~0.0.1",
     "dmg": "~0.0.3",
     "tmp": "~0.0.20",
     "ncp": "~0.4",

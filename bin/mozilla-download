@@ -1,8 +1,8 @@
 #! /usr/bin/env node
 
 var fs = require('fs'),
-    mozdown = require('../index'),
-    program = require('commander');
+    mozdown = require('../'),
+    program = require('mozilla-get-url/bin/mozilla-get-url');
 
 function verbose() {
   var args = Array.prototype.slice.call(arguments);
@@ -13,10 +13,6 @@ function verbose() {
 program.
   version(require('../package.json').version).
   usage('[options] <target>').
-  option('--verbose').
-  option('--product-version [latest]', 'version of product to download').
-  option('-P, --product [firefox]', 'product to download').
-  option('--os [type]', 'override detected operating system').
   parse(process.argv);
 
 var target = program.args[0];
@@ -32,26 +28,7 @@ if (fs.existsSync(target)) {
   process.exit();
 }
 
-var product = program.product || 'firefox',
-    version = program.productVersion,
-    os = program.os;
-
-var downloadOptions = {};
-
-if (os)
-  downloadOptions.os = os;
-
-if (version)
-  downloadOptions.version = version;
-
-verbose(
-  'downloading product: "%s" to "%s" with options "%s"',
-  product,
-  target,
-  JSON.stringify(downloadOptions)
-);
-
-mozdown.download(product, target, downloadOptions, function(err) {
+mozdown(target, program, function(err) {
   if (err) {
     console.log(err.message);
     process.exit(1);

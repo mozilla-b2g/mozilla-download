@@ -1,19 +1,20 @@
 suite('download', function() {
   var assert = require('assert');
-  var runner = require('../index');
+  var download = require('../lib/download');
   var fs = require('fs');
 
   suite('when path exists', function() {
     var path = __dirname + '/fixtures/b2g.dmg';
     test('non-strict', function(done) {
-      runner.download('b2g', path, function(err, givenPath) {
+      download(path, { product: 'b2g' }, function(err, givenPath) {
         assert.equal(givenPath, path);
         done(err);
       });
     });
 
     test('strict', function(done) {
-      runner.download('b2g', path, { strict: true }, function(err, givenPath) {
+      var options = { product: 'b2g', strict: true };
+      download(path, options, function(err, givenPath) {
         if (!err) {
           done(new Error('strict must return an error when file exists'));
           return;
@@ -24,17 +25,17 @@ suite('download', function() {
   });
 
 
-  suite('mac64', function() {
+  suite('mac', function() {
     var path = __dirname + '/darwin-out/';
     if (process.platform !== 'darwin')
       return test('cannot run mac64 tests on non darwin platforms');
 
     test('package expansion', function(done) {
-      var options = { os: 'mac64', version: 'release' };
-      runner.download('b2g', path, options, function(err, path) {
+      var options = { os: 'mac' };
+      download(path, options, function(err, path) {
         var stat = fs.statSync(path);
         assert.ok(stat.isDirectory());
-        done();
+        done(err);
       });
     });
   });
@@ -45,11 +46,17 @@ suite('download', function() {
       return test('cannot run on windows');
 
     test('package expansion', function(done) {
-      var options = { os: 'linux-x86_64', version: 'release' };
-      runner.download('b2g', path, options, function(err, path) {
+      var options = {
+        os: 'linux-x86_64',
+        product: 'b2g',
+        channel: 'prerelease',
+        branch: 'nightly'
+      };
+
+      download(path, options, function(err, path) {
         var stat = fs.statSync(path);
         assert.ok(stat.isDirectory());
-        done();
+        done(err);
       });
     });
 
