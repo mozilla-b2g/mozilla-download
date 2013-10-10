@@ -19,3 +19,7 @@ test: node_modules test/fixtures test/extract-out
 .PHONY: test-full
 test-full: node_modules test/fixtures test/extract-out
 	./node_modules/mocha/bin/mocha --reporter spec -t 100s
+
+.PHONY: clean
+clean:
+	rm -Rf test/darwin-out test/extract-out test/linux-out

@@ -4,7 +4,7 @@ suite('detect', function() {
 
   suite('#detectOS', function() {
     var expected = [
-      [{ platform: 'darwin', arch: 'x64' }, 'mac64'],
+      [{ platform: 'darwin', arch: 'x64' }, 'mac'],
       // something other then x64 (unlikely)
       [{ platform: 'darwin', arch: 'ia32' }, 'mac'],
       [{ platform: 'win32', arch: 'ia32' }, 'win32'],
