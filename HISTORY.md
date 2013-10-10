@@ -1,3 +1,6 @@
+# 0.3.0
+  - use mozilla-get-url
+
 # 0.2.1
   - oops! tell npm about the new binary
 
