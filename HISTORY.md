@@ -1,3 +1,6 @@
+# 0.4.0
+  - add mozilla-download-url bin which can take a url and extract it.
+
 # 0.3.0
   - use mozilla-get-url
 
