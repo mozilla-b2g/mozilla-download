@@ -17,7 +17,7 @@ var mozdownload = require('mozilla-download');
 var options = {};
 
 // download firefox
-moz.download('save/me', options, functon(err, path) {
+mozdownload('save/me', options, functon(err, path) {
   // path is the same as save targe
 });
 ```
