@@ -1,0 +1,23 @@
+#! /usr/bin/env node
+
+var program = require('commander'),
+    fetch = require('../lib/fetch'),
+    debug = require('debug')('mozilla-download:mozilla-download-url');
+
+
+program.
+  usage('[options] <destination>').
+  option('--product <b2g|firefox>', 'mozilla product').
+  option('--url <url>', 'url to download').
+  parse(process.argv);
+
+if (!program.product) throw new Error('--product must be passed');
+if (!program.url) throw new Error('--url must be passed');
+
+debug('product', program.product);
+debug('url', program.url);
+debug('destination', program.args[0]);
+
+fetch(program.product, program.url, program.args[0], function(err) {
+  if (err) throw err;
+});
