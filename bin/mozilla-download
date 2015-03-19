@@ -10,10 +10,15 @@ function verbose() {
     console.log.apply(console, arguments);
 }
 
-program.
-  version(require('../package.json').version).
-  usage('[options] <target>').
-  parse(process.argv);
+program
+  .version(require('../package.json').version)
+  .usage('[options] <target>')
+  .parse(process.argv);
+
+if ('MOZILLA_BUILD_URL' in process.env) {
+  // Allow environment variable to optionally override where we get build
+  program.url = process.env.MOZILLA_BUILD_URL;
+}
 
 var target = program.args[0];
 

@@ -1,6 +1,6 @@
 {
   "name": "mozilla-download",
-  "version": "0.4.5",
+  "version": "0.5.0",
   "author": "James Lal [:lightsofapollo]",
   "description": "Download firefox/b2g-desktop runtimes",
   "main": "lib/download.js",
