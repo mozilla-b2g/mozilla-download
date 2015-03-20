@@ -33,6 +33,6 @@
     "node": ">=0.4"
   },
   "scripts": {
-    "test": "make test-node"
+    "test": "make test"
   }
 }
