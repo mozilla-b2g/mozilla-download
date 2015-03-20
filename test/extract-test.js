@@ -60,7 +60,7 @@ suite('extract', function() {
       var out =
         __dirname + '/extract-out/tarbz2';
 
-      test('extract', function(done) {
+      test.skip('extract', function(done) {
         extract('b2g', 'b2g.tar.bz2', fixture, out, verifyTarbz2(done));
       });
     });
@@ -107,7 +107,7 @@ suite('extract', function() {
       var out =
         __dirname + '/extract-out/firefox-nightly-tarbz2';
 
-      test('extract', function(done) {
+      test.skip('extract', function(done) {
         extract('firefox', 'firefox.tar.bz2', fixture, out, verifyTarbz2(done));
       });
     });

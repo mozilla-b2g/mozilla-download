@@ -59,7 +59,24 @@ suite('download', function() {
         done(err);
       });
     });
-
   });
 
+  suite('custom url', function() {
+    var path = __dirname + '/linux-out/';
+
+    test('package expansion', function(done) {
+      var url = 'http://ftp.mozilla.org/pub/mozilla.org/firefox/releases' +
+                '/21.0/linux-i686/en-US/firefox-21.0.tar.bz2';
+      var options = {
+        os: 'linux-x86_64',
+        url: url
+      };
+
+      download(path, options, function(err, path) {
+        var stat = fs.statSync(path);
+        assert.ok(stat.isDirectory());
+        done(err);
+      });
+    });
+  });
 });

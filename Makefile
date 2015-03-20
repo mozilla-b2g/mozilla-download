@@ -14,6 +14,7 @@ node_modules:
 test: node_modules test/fixtures test/extract-out
 	./node_modules/mocha/bin/mocha \
 		test/detectos-test.js \
+		test/download-test.js \
 		test/extract-test.js
 
 .PHONY: test-full
