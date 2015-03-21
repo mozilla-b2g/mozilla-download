@@ -19,7 +19,7 @@
   },
   "dependencies" : {
     "debug": "~1.0.3",
-    "mozilla-get-url": "0.4.3",
+    "mozilla-get-url": "0.4.1",
     "dmg": "~0.0.3",
     "tmp": "~0.0.20",
     "ncp": "~0.4",
