@@ -1,3 +1,6 @@
+# 1.0.0
+  - Rewritten to use taskcluster index instead of mozilla ftp
+
 # 0.3.0
   - use mozilla-get-url
 

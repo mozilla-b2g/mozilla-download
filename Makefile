@@ -1,26 +1,27 @@
-default: test
+all: build node_modules
 
-test/extract-out:
-	mkdir test/extract-out
+build: node_modules
+	mkdir -p build
+	./node_modules/.bin/babel src \
+		--experimental \
+		--modules common \
+		--out-dir build \
+		--source-maps
 
-test/fixtures:
-	mkdir test/fixtures
-	node fixtures.js
-
-node_modules:
+node_modules: package.json
 	npm install
 
 .PHONY: test
-test: node_modules test/fixtures test/extract-out
-	./node_modules/mocha/bin/mocha \
-		test/detectos-test.js \
-		test/download-test.js \
-		test/extract-test.js
-
-.PHONY: test-full
-test-full: node_modules test/fixtures test/extract-out
-	./node_modules/mocha/bin/mocha --reporter spec -t 100s
+test: all
+	./node_modules/.bin/mocha
 
 .PHONY: clean
-clean:
-	rm -Rf test/darwin-out test/extract-out test/linux-out
+clean: remove_build remove_node_modules
+
+.PHONY: remove_build
+remove_build:
+	rm -rf build
+
+.PHONY: remove_node_modules
+remove_node_modules:
+	rm -rf node_modules
