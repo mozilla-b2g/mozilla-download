@@ -1,5 +1,6 @@
 import { ArgumentParser } from 'argparse';
 import detectOS from './detectos';
+import detectURL from './detecturl';
 import download from './download';
 
 let parser = new ArgumentParser({
@@ -31,4 +32,4 @@ parser.addArgument(['--branch'], {
 });
 
 let options = parser.parseArgs();
-download(options);
+detectURL(options).then(download);
