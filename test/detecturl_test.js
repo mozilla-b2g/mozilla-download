@@ -15,7 +15,7 @@ suite('detectURL', function() {
         url,
         new RegExp(
           'https:\/\/queue.taskcluster.net\/v1\/task\/' +
-          '[A-Za-z0-9-]+' +                      // task id
+          '[A-Za-z0-9-_]+' +                     // task id
           '\/artifacts\/' +
           'public/build\/firefox\.*\.tar\.bz2'   // artifact name
         )

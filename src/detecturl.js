@@ -1,5 +1,7 @@
-import { format } from 'url';
 import taskcluster from 'taskcluster-client';
+import { format } from 'url';
+import buildtype from './buildtype';
+import fileExtension from './file_extension';
 
 const TC_CLIENT_OPTS = { timeout: 30 * 1000 };
 
@@ -15,22 +17,16 @@ export default function detectURL(options) {
   let index = new taskcluster.Index(TC_CLIENT_OPTS);
   let queue = new taskcluster.Queue(TC_CLIENT_OPTS);
 
+  // Figure out the appropriate ns.
+  let nsparts = ['buildbot'];
+
+  let os = options.os;
   let channel = options.channel;
   let branch = options.branch;
-  let nsparts = ['buildbot'];
   switch (channel) {
     case 'prerelease':
       nsparts.push('branches');
-      switch (branch) {
-        case 'mozilla-central':
-        case 'nightly':
-          nsparts.push('mozilla-central');
-          break;
-        case 'aurora':
-          nsparts.push('mozilla-aurora');
-          break;
-      }
-
+      nsparts.push(branch === 'aurora' ? 'mozilla-aurora' : 'mozilla-central');
       break;
     case 'release':
     case 'tinderbox':
@@ -40,51 +36,32 @@ export default function detectURL(options) {
       return Promise.reject(new Error('Unsupported channel ' + channel));
   }
 
-  let os = options.os;
-  switch (os) {
-    case 'mac':
-      nsparts.push('macosx64-debug');
-      break;
-    case 'linux-i686':
-      nsparts.push('linux-debug');
-      break;
-    case 'linux-x86_64':
-      nsparts.push('linux64-debug');
-      break;
-    case 'win32':
-      nsparts.push('win32');
-      break;
-  }
-
+  nsparts.push(buildtype(os));
   let ns = nsparts.join('.');
 
-  return index.findTask(ns).then(task => {
-    let id = task.taskId;
-    return queue.listLatestArtifacts(id).then(response => {
+  // Find task for ns.
+  return index.findTask(ns)
+  .then(task => {
+    let taskId = task.taskId;
+
+    // List task artifacts.
+    return queue.listLatestArtifacts(taskId).then(response => {
       let artifacts = response.artifacts;
       let artifact = artifacts.find(artifact => {
-        let suffix;
-        switch (os) {
-          case 'mac':
-            suffix = 'dmg';
-            break;
-          case 'linux-i686':
-          case 'linux-x86_64':
-            suffix = 'tar.bz2';
-            break;
-          case 'win32':
-            // TODO(gareth): What is suffix?
-            return Promise.reject(new Error('Windows not supported'));
-        }
-
+        let suffix = fileExtension(os);
         return artifact.name.indexOf(suffix) !== -1;
       });
 
-      return format({
-        protocol: 'https',
-        host: 'queue.taskcluster.net',
-        pathname: '/v1/task/' + id + '/artifacts/' + artifact.name
-      });
+      return Promise.resolve({ taskId: taskId, artifact: artifact.name });
+    });
+  })
+  .then(result => {
+    // Url for build is
+    // https://queue.taskcluster.net/v1/task/{taskId}/artifacts/{artifact}
+    return format({
+      protocol: 'https',
+      host: 'queue.taskcluster.net',
+      pathname: '/v1/task/' + result.taskId + '/artifacts/' + result.artifact
     });
   });
 }

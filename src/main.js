@@ -2,6 +2,7 @@ import { ArgumentParser } from 'argparse';
 import detectOS from './detectos';
 import detectURL from './detecturl';
 import download from './download';
+import extract from './extract';
 
 let parser = new ArgumentParser({
   version: require('../package').version,
@@ -31,5 +32,7 @@ parser.addArgument(['--branch'], {
   defaultValue: 'latest'
 });
 
-let options = parser.parseArgs();
-detectURL(options).then(download);
+let args = parser.parseArgs();
+detectURL(args)
+.then(url => download(url, args))
+.then(tmpPath => extract(args.product, tmpPath, args[0] /* dest */));
