@@ -62,11 +62,8 @@ suite('download', function() {
   });
 
   suite('custom url', function() {
-    var path = __dirname + '/linux-out/';
 
-    test('package expansion', function(done) {
-      var url = 'http://ftp.mozilla.org/pub/mozilla.org/firefox/releases' +
-                '/21.0/linux-i686/en-US/firefox-21.0.tar.bz2';
+    function doDownload(path, url, done) {
       var options = {
         os: 'linux-x86_64',
         url: url
@@ -77,6 +74,20 @@ suite('download', function() {
         assert.ok(stat.isDirectory());
         done(err);
       });
+    }
+
+    test('package expansion', function(done) {
+      var path = __dirname + '/linux-out-1/';
+      var url = 'http://ftp.mozilla.org/pub/mozilla.org/firefox/releases' +
+                '/21.0/linux-i686/en-US/firefox-21.0.tar.bz2';
+      doDownload(path, url, done);
+    });
+
+    test('package expansion (https)', function(done) {
+      var path = __dirname + '/linux-out-2/';
+      var url = 'https://ftp.mozilla.org/pub/mozilla.org/firefox/releases' +
+                '/21.0/linux-i686/en-US/firefox-21.0.tar.bz2';
+      doDownload(path, url, done);
     });
   });
 });
