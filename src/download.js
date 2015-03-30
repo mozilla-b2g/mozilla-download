@@ -1,41 +1,24 @@
-import debounce from './debounce';
-import debug from 'debug';
-import http from 'http';
+let debug = require('debug')('download');
 import fs from 'fs';
-import tmp from 'tmp';
+import { throttle } from 'lodash';
+import request from 'request';
+import { tempfile } from './temp';
 
 export default function download(url, options) {
-  return Promise.all([
-    tmpFile({ prefix: 'mozilla-download-' + options.os }),
-    httpGet(url)
-  ])
-  .then(result => {
-    let [tmpPath, response] = result;
-
-    let stream = fs.createWriteStream(tmpPath);
-    response.pipe(stream);
-    debug('Opened http connection downloading...', tmpPath);
-    response.on('data', debounce(() => process.stdout.write('.'), 1000));
+  return tempfile({ prefix: 'mozilla-download-' + options.os }).then(path => {
+    let get = request.get(url);
+    let stream = fs.createWriteStream(path);
+    debug('Will open http connection, download to', path);
 
     return new Promise((accept, reject) => {
+      get.on('error', reject);
       stream.on('error', reject);
+      get.pipe(stream);
+      get.on('data', throttle(() => process.stdout.write('.'), 1000));
       stream.on('finish', () => {
         process.stdout.write('\n');
-        accept(tmpPath);
+        accept(path);
       });
     });
   });
-}
-
-function tmpFile(options) {
-  return new Promise((accept, reject) => {
-    tmp.file(options, (err, path) => {
-      if (err) reject(err);
-      accept(path);
-    });
-  });
-}
-
-function httpGet(url) {
-  return new Promise(accept => http.get(url, accept));
 }

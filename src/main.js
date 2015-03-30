@@ -3,6 +3,7 @@ import detectOS from './detectos';
 import detectURL from './detecturl';
 import download from './download';
 import extract from './extract';
+import { defaultExtension } from './file_extension';
 
 let parser = new ArgumentParser({
   version: require('../package').version,
@@ -22,17 +23,33 @@ parser.addArgument(['--os'], {
   defaultValue: detectOS()
 });
 
-parser.addArgument(['--channel'], {
-  type: 'string',
-  defaultValue: 'release'
-});
-
 parser.addArgument(['--branch'], {
   type: 'string',
-  defaultValue: 'latest'
+  defaultValue: 'mozilla-central'
+});
+
+parser.addArgument(['--file-suffix'], {
+  type: 'string',
+  dest: 'fileSuffix'
+});
+
+parser.addArgument(['dest'], {
+  type: 'string'
 });
 
 let args = parser.parseArgs();
 detectURL(args)
 .then(url => download(url, args))
-.then(tmpPath => extract(args.product, tmpPath, args[0] /* dest */));
+.then(path => {
+  let extractOpts = { source: path, dest: args.dest };
+  let ext = defaultExtension(args.os);
+  if (!args.fileSuffix || args.fileSuffix.indexOf(ext) !== -1) {
+    // They want the regular old build archive.
+    extractOpts.filetype = ext;
+  }
+
+  return extract(extractOpts);
+})
+.catch(error => {
+  console.error(error.toString());
+});

@@ -1,4 +1,4 @@
-export default function fileExtension(os) {
+export function defaultExtension(os) {
   switch (os) {
     case 'mac':
       return 'dmg';
