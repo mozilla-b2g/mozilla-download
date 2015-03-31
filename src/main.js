@@ -37,19 +37,19 @@ parser.addArgument(['dest'], {
   type: 'string'
 });
 
-let args = parser.parseArgs();
-detectURL(args)
-.then(url => download(url, args))
-.then(path => {
-  let extractOpts = { source: path, dest: args.dest };
-  let ext = defaultExtension(args.os);
-  if (!args.fileSuffix || args.fileSuffix.indexOf(ext) !== -1) {
-    // They want the regular old build archive.
-    extractOpts.filetype = ext;
-  }
+(async function main(args) {
+  try {
+    let url = await detectURL(args);
+    let path = await download(url, args);
+    let extractOpts = { source: path, dest: args.dest };
+    let ext = defaultExtension(args.os);
+    if (!args.fileSuffix || args.fileSuffix.indexOf(ext) !== -1) {
+      // They want the regular old build archive.
+      extractOpts.filetype = ext;
+    }
 
-  return extract(extractOpts);
-})
-.catch(error => {
-  console.error(error.toString());
-});
+    await extract(extractOpts);
+  } catch (error) {
+    console.error(error.toString());
+  }
+})(parser.parseArgs());

@@ -1,4 +1,4 @@
 --reporter spec
 --require test/entrypoint
---timeout 10s
+--timeout 20s
 --ui tdd

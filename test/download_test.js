@@ -20,26 +20,21 @@ suite('download', function() {
 
   teardown(done => server.close(done));
 
-  test('should download file to temp path', function() {
-    return download('http://localhost:8080/index.html', { os: 'linux-x87_64' })
-    .then(path => {
-      let original = __dirname + '/fixtures/index.html';
-      let emptyDiff = shell(['diff', original, path].join(' ')).then(diff => {
-        assert.match(diff, /^\s*$/, 'downloaded file should match original');
-      });
+  test('should download file to temp path', async function() {
+    let path = await download('http://localhost:8080/index.html', {
+      os: 'linux-x87_64'
+    });
 
-      let equalSize = Promise.all([
-        shell(['du', '-h', original].join(' ')),
-        shell(['du', '-h', path].join(' '))
-      ])
-      .then(sizes => {
-        // Strip number from du output.
-        sizes = sizes.map(size => size.split(/\s+/)[0]);
-        assert.equal(sizes[0], sizes[1], 'downloaded file size not equal');
-        assert.match(sizes[0], /^[1-9]\d*/, 'size of test download not gt 0');
-      });
+    let original = __dirname + '/fixtures/index.html';
+    let diff = await shell(['diff', original, path].join(' '));
+    assert.match(diff, /^\s*$/, 'downloaded file should match original');
 
-      return Promise.all([ emptyDiff, equalSize ]);
-    })
+    let size = await fileSize(path);
+    assert.match(size, /^[1-9]\d*/, 'size of test download not gt 0');
   });
 });
+
+async function fileSize(path) {
+  let res = await shell(['du', '-h', path].join(' '));
+  return res.split(/\s+/)[0];
+}

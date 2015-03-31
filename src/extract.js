@@ -14,27 +14,26 @@ let cpr = Promise.denodeify(ncp);
  *   (String) source
  *   (String) dest
  */
-export default function extract(options) {
+export default async function extract(options) {
   let dest = options.dest;
-  return tempdir()
-  .then(path => {
-    // Extract to temporary location.
-    options.dest = path;
-    switch (options.filetype) {
-      case 'dmg':
-        return extractDmg(options);
-      case 'tar.bz2':
-        return extractTarBz2(options);
-      default:
-        // Default to no extraction if we don't understand filetype.
-        options.dest = dest;
-        return Promise.resolve();
-    }
-  })
-  .then(() => {
-    // Copy to destination.
-    return cpr(options.dest, dest);
-  });
+  let path = await tempdir();
+  // Extract to temporary location.
+  options.dest = path;
+  switch (options.filetype) {
+    case 'dmg':
+      await extractDmg(options);
+      break;
+    case 'tar.bz2':
+      await extractTarBz2(options);
+      break;
+    default:
+      // Default to no extraction if we don't understand filetype.
+      options.dest = dest;
+      break;
+  }
+
+  // Copy to destination.
+  await cpr(options.dest, dest);
 }
 
 function extractDmg(options) {
