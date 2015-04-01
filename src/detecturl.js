@@ -14,24 +14,21 @@ const TC_CLIENT_OPTS = { timeout: 30 * 1000 };
  *   (String) fileSuffix
  */
 export default async function detectURL(options) {
-  let index = new taskcluster.Index(TC_CLIENT_OPTS);
-  let queue = new taskcluster.Queue(TC_CLIENT_OPTS);
-  let os = options.os;
-  let branch = options.branch;
-
-  // Figure out the appropriate ns.
+  // Figure out the appropriate index namespace.
   let nsparts = [
     'buildbot',
     'branches',
-    branch
+    options.branch
   ];
 
+  let os = options.os;
   nsparts.push(buildtype(os));
   let ns = nsparts.join('.');
-
-  // Find task for ns.
+  // Find task in the namespace.
+  let index = new taskcluster.Index(TC_CLIENT_OPTS);
   let task = await index.findTask(ns);
   // List task artifacts.
+  let queue = new taskcluster.Queue(TC_CLIENT_OPTS);
   let res = await queue.listLatestArtifacts(task.taskId);
   let artifacts = res.artifacts;
   let suffix = !!options.fileSuffix ?

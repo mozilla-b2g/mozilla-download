@@ -7,7 +7,7 @@ export default function buildtype(os) {
     case 'linux-x86_64':
       return 'linux64-debug';
     case 'win32':
-      return 'win32';
+      return 'win32-debug';
     default:
       throw new Error('Unsupported os ' + os);
   }

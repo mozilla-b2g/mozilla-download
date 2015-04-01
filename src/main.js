@@ -3,7 +3,7 @@ import detectOS from './detectos';
 import detectURL from './detecturl';
 import download from './download';
 import extract from './extract';
-import { defaultExtension } from './file_extension';
+import { filetype } from './file_extension';
 
 let parser = new ArgumentParser({
   version: require('../package').version,
@@ -37,19 +37,22 @@ parser.addArgument(['dest'], {
   type: 'string'
 });
 
-(async function main(args) {
+export default async function main(args=parser.parseArgs()) {
   try {
     let url = await detectURL(args);
     let path = await download(url, args);
     let extractOpts = { source: path, dest: args.dest };
-    let ext = defaultExtension(args.os);
-    if (!args.fileSuffix || args.fileSuffix.indexOf(ext) !== -1) {
+    let extension = filetype(args.os);
+    if (args.fileSuffix) {
+      let parts = args.fileSuffix.split('.');
+      extractOpts.filetype = parts[parts.length - 1];
+    } else {
       // They want the regular old build archive.
-      extractOpts.filetype = ext;
+      extractOpts.filetype = extension;
     }
 
     await extract(extractOpts);
   } catch (error) {
     console.error(error.toString());
   }
-})(parser.parseArgs());
+}

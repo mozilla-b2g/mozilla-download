@@ -24,7 +24,10 @@ export default async function extract(options) {
       await extractDmg(options);
       break;
     case 'tar.bz2':
-      await extractTarBz2(options);
+      await extractTarball(options);
+      break;
+    case 'zip':
+      await extractZipball(options);
       break;
     default:
       // Default to no extraction if we don't understand filetype.
@@ -41,6 +44,10 @@ function extractDmg(options) {
   return Promise.reject(new Error('How to dmg?'));
 }
 
-function extractTarBz2(options) {
-  return shell(['tar', '-xf', options.source, '-C', options.dest].join(' '));
+function extractTarball(options) {
+  return shell(['tar', '-xf', options.source, '-C', options.dest]);
+}
+
+function extractZipball(options) {
+  return shell(['unzip', options.source, '-d', options.dest]);
 }
