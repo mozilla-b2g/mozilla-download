@@ -24,7 +24,7 @@ suite('detectURL', function() {
   test('fileSuffix specified', async function() {
     let options = {
       product: 'firefox',
-      os: 'mac',
+      os: 'mac64',
       branch: 'mozilla-central',
       fileSuffix: 'crashreporter-symbols.zip'
     };

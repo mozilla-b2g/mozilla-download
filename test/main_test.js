@@ -52,24 +52,23 @@ suite('main', function() {
       name: 'ff mac b2g-inbound',
       args: {
         product: 'firefox',
-        os: 'mac',
+        os: 'mac64',
         branch: 'b2g-inbound'
       },
       verify: function() {
         let dir = this.args.dest + '/firefox';
         assert.ok(fs.existsSync(dir), 'No ff dir in ' + this.args.dest);
         let contents = fs.readdirSync(dir);
-        console.log(JSON.stringify(contents));
-        assert.include(contents, 'Contents', 'No Contents/ in ' + dir);
+        assert.include(contents, 'Contents', 'No Contents in ' + dir);
       }
     }
-  ]
+  ];
 
   cases.forEach(testCase => {
     test(testCase.name, async function() {
       let os = detectOS();
-      if (os === 'mac' && isLinux(testCase.args.os) ||
-          isLinux(os) && testCase.args.os === 'mac') {
+      if (os === 'mac64' && isLinux(testCase.args.os) ||
+          isLinux(os) && testCase.args.os === 'mac64') {
         return;
       }
 

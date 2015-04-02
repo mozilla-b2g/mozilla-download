@@ -3,7 +3,7 @@ import detectOS from '../src/detectos';
 
 suite('detectOS', function() {
   test('darwin', function() {
-    assert.equal(detectOS({ platform: 'darwin' }), 'mac');
+    assert.equal(detectOS({ platform: 'darwin' }), 'mac64');
   });
 
   test('x86_64', function() {

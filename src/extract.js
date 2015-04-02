@@ -1,6 +1,7 @@
 import Promise from 'promise';
 import dmg from 'dmg';
 import { exec } from 'mz/child_process';
+import fs from 'fs';
 import { ncp } from 'ncp';
 import { tempdir } from './temp';
 
@@ -13,6 +14,7 @@ ncp = Promise.denodeify(ncp);
  *
  * Options:
  *
+ *   (String) product
  *   (String) filetype
  *   (String) source
  *   (String) dest
@@ -44,7 +46,12 @@ export default async function extract(options) {
 
 async function extractDmg(options) {
   let path = await dmg.mount(options.source);
-  await ncp(path, options.dest);
+  let files = fs.readdirSync(path);
+  let target = files.find(file => /\.app/.test(file));
+  let source = path + '/' + target;
+  let dest = options.dest + '/' + options.product;
+  fs.mkdirSync(dest);
+  await ncp(source, dest);
   await dmg.unmount(path);
 }
 

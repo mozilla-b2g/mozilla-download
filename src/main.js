@@ -46,7 +46,7 @@ export default async function main(args=parser.parseArgs()) {
     debug('Artifact url', url);
     let path = await download(url, args);
     debug('Download to', path);
-    let extractOpts = { source: path, dest: args.dest };
+    let extractOpts = { source: path, dest: args.dest, product: args.product };
     if (args.fileSuffix) {
       let parts = args.fileSuffix.split('.');
       extractOpts.filetype = parts[parts.length - 1];

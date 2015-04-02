@@ -3,7 +3,7 @@
  */
 export function archiveFiletype(os) {
   switch (os) {
-    case 'mac':
+    case 'mac64':
       return 'dmg';
     case 'linux-i686':
     case 'linux-x86_64':
@@ -27,7 +27,7 @@ export function archiveFileSuffix(os) {
  */
 export function buildname(os) {
   switch (os) {
-    case 'mac':
+    case 'mac64':
       return 'macosx64-debug';
     case 'linux-i686':
       return 'linux-debug';
