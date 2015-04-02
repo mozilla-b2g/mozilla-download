@@ -1,39 +1,26 @@
 # Mozilla Download
 
-Helper utility for downloading various mozilla products in various
-release channels. Built on top of
-[mozilla-get-url](https://github.com/mozilla-b2g/mozilla-get-url).
+Helper utility for downloading various mozilla products.
 
-Handles operating system detection (win32, mac, linux-i686,
-linux-x86_64) and extraction of files (.tar.bz2, .dmg).
-Extraction is platform dependent a .dmg may not unpack on linux.
+Handles operating system detection (win32, mac, linux-i686, linux-x86\_64) and extraction of files (.tar.bz2, .dmg).
 
-## Usage
+### Usage
 
-``` js
-var mozdownload = require('mozilla-download');
-
-// see https://github.com/mozilla-b2g/mozilla-get-url#usage for options
-var options = {};
-
-// download firefox
-mozdownload('save/me', options, functon(err, path) {
-  // path is the same as save targe
-});
+```js
+// TODO
 ```
 
-
-## CLI Usage
+### CLI Usage
 
 ```sh
-mozilla-download path/to/place/extracted/folder
+mozilla-download /path/to/place/extracted/folder
 ```
 
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2013 Sahaja James Lal
+Copyright (c) 2015 Gareth Aye, Sahaja James Lal
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
