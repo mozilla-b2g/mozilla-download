@@ -1,5 +1,6 @@
 import { assert } from 'chai';
 import fs from 'fs';
+import detectOS from '../src/detectos';
 import main from '../src/main';
 import { tempdir } from '../src/temp';
 
@@ -46,11 +47,32 @@ suite('main', function() {
         let contents = fs.readdirSync(dir);
         assert.include(contents, 'firefox.exe', 'No ff exe in ' + dir);
       }
+    },
+    {
+      name: 'ff mac b2g-inbound',
+      args: {
+        product: 'firefox',
+        os: 'mac',
+        branch: 'b2g-inbound'
+      },
+      verify: function() {
+        let dir = this.args.dest + '/firefox';
+        assert.ok(fs.existsSync(dir), 'No ff dir in ' + this.args.dest);
+        let contents = fs.readdirSync(dir);
+        console.log(JSON.stringify(contents));
+        assert.include(contents, 'Contents', 'No Contents/ in ' + dir);
+      }
     }
   ]
 
   cases.forEach(testCase => {
     test(testCase.name, async function() {
+      let os = detectOS();
+      if (os === 'mac' && isLinux(testCase.args.os) ||
+          isLinux(os) && testCase.args.os === 'mac') {
+        return;
+      }
+
       let dest = await tempdir();
       testCase.args.dest = dest;
       await main(testCase.args);
@@ -58,3 +80,7 @@ suite('main', function() {
     });
   });
 });
+
+function isLinux(os) {
+  return os.indexOf('linux') !== -1;
+}

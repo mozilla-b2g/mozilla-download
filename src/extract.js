@@ -1,8 +1,11 @@
 import Promise from 'promise';
+import dmg from 'dmg';
 import { exec } from 'mz/child_process';
 import { ncp } from 'ncp';
 import { tempdir } from './temp';
 
+dmg.mount = Promise.denodeify(dmg.mount);
+dmg.unmount = Promise.denodeify(dmg.unmount);
 ncp = Promise.denodeify(ncp);
 
 /**
@@ -39,9 +42,10 @@ export default async function extract(options) {
   await ncp(options.dest, dest);
 }
 
-function extractDmg(options) {
-  // TODO(gareth)
-  return Promise.reject(new Error('How to dmg?'));
+async function extractDmg(options) {
+  let path = await dmg.mount(options.source);
+  await ncp(path, options.dest);
+  await dmg.unmount(path);
 }
 
 function extractTarball(options) {
