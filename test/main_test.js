@@ -14,9 +14,9 @@ suite('main', function() {
       },
       verify: function() {
         let dir = this.args.dest + '/firefox';
-        assert.ok(fs.existsSync(dir));
+        assert.ok(fs.existsSync(dir), 'No ff dir in ' + this.args.dest);
         let contents = fs.readdirSync(dir);
-        assert.include(contents, 'firefox');
+        assert.include(contents, 'firefox', 'No ff bin in ' + dir);
       }
     },
     {
@@ -42,9 +42,9 @@ suite('main', function() {
       },
       verify: function() {
         let dir = this.args.dest + '/firefox';
-        assert.ok(fs.existsSync(dir));
+        assert.ok(fs.existsSync(dir), 'No ff dir in ' + this.args.dest);
         let contents = fs.readdirSync(dir);
-        assert.include(contents, 'firefox.exe');
+        assert.include(contents, 'firefox.exe', 'No ff exe in ' + dir);
       }
     }
   ]

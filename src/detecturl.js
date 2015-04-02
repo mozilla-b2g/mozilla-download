@@ -1,7 +1,6 @@
 import taskcluster from 'taskcluster-client';
 import { format } from 'url';
-import buildtype from './buildtype';
-import { defaultExtension } from './file_extension';
+import * as buildinfo from './moz_build_info';
 
 const TC_CLIENT_OPTS = { timeout: 30 * 1000 };
 
@@ -22,7 +21,7 @@ export default async function detectURL(options) {
   ];
 
   let os = options.os;
-  nsparts.push(buildtype(os));
+  nsparts.push(buildinfo.buildname(os));
   let ns = nsparts.join('.');
   // Find task in the namespace.
   let index = new taskcluster.Index(TC_CLIENT_OPTS);
@@ -31,9 +30,10 @@ export default async function detectURL(options) {
   let queue = new taskcluster.Queue(TC_CLIENT_OPTS);
   let res = await queue.listLatestArtifacts(task.taskId);
   let artifacts = res.artifacts;
+  // Default to downloading the build archive for our os.
   let suffix = !!options.fileSuffix ?
     options.fileSuffix :
-    defaultExtension(os);
+    buildinfo.archiveFileSuffix(os);
   let artifact = artifacts.find(art => art.name.indexOf(suffix) !== -1);
   if (!artifact) {
     return Promise.reject(new Error('Could not find appropriate artifact'));

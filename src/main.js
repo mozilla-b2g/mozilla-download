@@ -1,9 +1,12 @@
 import { ArgumentParser } from 'argparse';
+import debug from 'debug';
 import detectOS from './detectos';
 import detectURL from './detecturl';
 import download from './download';
 import extract from './extract';
-import { filetype } from './file_extension';
+import * as buildinfo from './moz_build_info';
+
+debug = debug('mozilla-download/main');
 
 let parser = new ArgumentParser({
   version: require('../package').version,
@@ -40,15 +43,17 @@ parser.addArgument(['dest'], {
 export default async function main(args=parser.parseArgs()) {
   try {
     let url = await detectURL(args);
+    debug('Artifact url', url);
     let path = await download(url, args);
+    debug('Download to', path);
     let extractOpts = { source: path, dest: args.dest };
-    let extension = filetype(args.os);
     if (args.fileSuffix) {
       let parts = args.fileSuffix.split('.');
       extractOpts.filetype = parts[parts.length - 1];
     } else {
       // They want the regular old build archive.
-      extractOpts.filetype = extension;
+      let os = args.os;
+      extractOpts.filetype = buildinfo.archiveFiletype(os);
     }
 
     await extract(extractOpts);

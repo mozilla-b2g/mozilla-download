@@ -1,8 +1,10 @@
-let debug = require('debug')('download');
+import debug from 'debug';
 import fs from 'fs';
 import { throttle } from 'lodash';
 import request from 'request';
 import { tempfile } from './temp';
+
+debug = debug('mozilla-download/download');
 
 export default async function download(url, options) {
   let path = await tempfile({ prefix: 'mozilla-download-' + options.os });

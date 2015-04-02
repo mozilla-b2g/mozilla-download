@@ -1,9 +1,9 @@
 import Promise from 'promise';
+import { exec } from 'mz/child_process';
 import { ncp } from 'ncp';
-import shell from './shell';
 import { tempdir } from './temp';
 
-let cpr = Promise.denodeify(ncp);
+ncp = Promise.denodeify(ncp);
 
 /**
  * @fileoverview Extracts firefox or b2g runtime from a compressed format.
@@ -36,7 +36,7 @@ export default async function extract(options) {
   }
 
   // Copy to destination.
-  await cpr(options.dest, dest);
+  await ncp(options.dest, dest);
 }
 
 function extractDmg(options) {
@@ -45,9 +45,9 @@ function extractDmg(options) {
 }
 
 function extractTarball(options) {
-  return shell(['tar', '-xf', options.source, '-C', options.dest]);
+  return exec(['tar', '-xf', options.source, '-C', options.dest].join(' '));
 }
 
 function extractZipball(options) {
-  return shell(['unzip', options.source, '-d', options.dest]);
+  return exec(['unzip', options.source, '-d', options.dest].join(' '));
 }

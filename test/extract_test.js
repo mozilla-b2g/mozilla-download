@@ -1,6 +1,6 @@
 import { assert } from 'chai';
+import { exec } from 'mz/child_process';
 import extract from '../src/extract';
-import shell from '../src/shell';
 import { tempdir } from '../src/temp';
 
 suite('extract', function() {
@@ -13,7 +13,7 @@ suite('extract', function() {
       file2 = path + '/file2.txt';
       return extract({ filetype: 'tar.bz2', source: archive, dest: path });
     })
-    .then(() => shell(['cat', file1, file2].join(' ')))
+    .then(() => exec(['cat', file1, file2].join(' ')))
     .then(res => {
       assert.match(res, /lol\s*cats/);
     });
