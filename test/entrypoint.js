@@ -1,1 +1,1 @@
-  require('babel/register')({ cache: true, experimental: true });
+require('babel/register')({ cache: true, experimental: true });
