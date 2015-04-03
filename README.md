@@ -1,22 +1,42 @@
 # Mozilla Download
 
-Helper utility for downloading various mozilla products.
-
-Handles operating system detection (win32, mac, linux-i686, linux-x86\_64) and extraction of files (.tar.bz2, .dmg).
+Helper utility for downloading various mozilla products. Handles operating system detection (win32, mac, linux-i686, linux-x86\_64) and extraction of files (.tar.bz2, .dmg, .zip).
 
 ### Usage
 
 ```js
-// TODO
+let download = require('mozilla-download/build/main');
+
+// basic
+download({
+  product: 'firefox',
+  os: 'linux-x86_64',
+  branch: 'mozilla-central',
+  dest: '/where/this/should/go'
+})
+.then(() => {
+  // Go look in /where/this/should/go for ff
+});
+
+// crash reporter symbols
+download({
+  product: 'firefox',
+  os: 'mac64',
+  branch: 'mozilla-central',
+  fileSuffix: 'crashreporter-symbols.zip',
+  dest: '/where/to/put/symbols'
+});
 ```
 
 ### CLI Usage
 
 ```sh
-mozilla-download /path/to/place/extracted/folder
+./node_modules/.bin/mozilla-download /path/to/put/extracted/folder
+    --branch mozilla-central \
+    --product firefox
 ```
 
-## License
+### License
 
 The MIT License (MIT)
 
