@@ -16,8 +16,8 @@ let parser = new ArgumentParser({
 
 parser.addArgument(['--product'], {
   type: 'string',
-  help: 'Name for gecko build (ie firefox, b2g)',
-  defaultValue: 'firefox'
+  help: 'Name for gecko build (ie b2g-desktop, mulet)',
+  defaultValue: 'b2g-desktop'
 });
 
 parser.addArgument(['--os'], {
@@ -29,6 +29,16 @@ parser.addArgument(['--os'], {
 parser.addArgument(['--branch'], {
   type: 'string',
   defaultValue: 'mozilla-central'
+});
+
+parser.addArgument(['--revision'], {
+  type: 'string',
+  defaultValue: null
+});
+
+parser.addArgument(['--debug'], {
+  type: 'int',
+  defaultValue: 0
 });
 
 parser.addArgument(['--file-suffix'], {
