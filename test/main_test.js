@@ -43,7 +43,8 @@ suite('main', function() {
       args: {
         product: 'b2g-desktop',
         os: 'mac64',
-        branch: 'mozilla-central'
+        branch: 'mozilla-central',
+        debug: '1'
       },
 
       verify: function() {
