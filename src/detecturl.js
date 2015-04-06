@@ -10,30 +10,38 @@ const TC_CLIENT_OPTS = { timeout: 30 * 1000 };
  *   (String) product
  *   (String) os
  *   (String) branch
+ *   (String) revision
  *   (String) fileSuffix
  */
 export default async function detectURL(options) {
   // Figure out the appropriate index namespace.
-  let nsparts = [
-    'buildbot',
-    'branches',
-    options.branch
-  ];
+  let nsparts = ['gecko', 'v1', options.branch];
+  if (options.revision) {
+    nsparts.push('revision');
+    nsparts.push(options.revision);
+  } else {
+    nsparts.push('latest');
+  }
 
-  let os = options.os;
-  nsparts.push(buildinfo.buildname(os));
+  nsparts.push(options.product);
+  nsparts.push(options.debug ? 'debug' : 'opt');
   let ns = nsparts.join('.');
-  // Find task in the namespace.
+
+  // Find task in namespace.
   let index = new taskcluster.Index(TC_CLIENT_OPTS);
   let task = await index.findTask(ns);
+
   // List task artifacts.
   let queue = new taskcluster.Queue(TC_CLIENT_OPTS);
-  let res = await queue.listLatestArtifacts(task.taskId);
-  let artifacts = res.artifacts;
+  let { artifacts } = await queue.listLatestArtifacts(task.taskId);
+
   // Default to downloading the build archive for our os.
+  let os = options.os;
   let suffix = !!options.fileSuffix ?
     options.fileSuffix :
     buildinfo.archiveFileSuffix(os);
+
+  // Filter through namespace artifacts.
   let artifact = artifacts.find(art => art.name.indexOf(suffix) !== -1);
   if (!artifact) {
     return Promise.reject(new Error('Could not find appropriate artifact'));

@@ -2,29 +2,27 @@ import { assert } from 'chai';
 import detectURL from '../src/detecturl';
 
 suite('detectURL', function() {
-  test('x86_64 firefox aurora', async function() {
+  test('x86_64 b2g-desktop opt', async function() {
     let options = {
-      product: 'firefox',
+      product: 'b2g-desktop',
       os: 'linux-x86_64',
-      branch: 'mozilla-aurora'
+      branch: 'mozilla-central',
     };
 
     let url = await detectURL(options);
     assert.match(
       url,
       new RegExp(
-        'https:\/\/queue.taskcluster.net\/v1\/task\/' +
-        '[A-Za-z0-9-_]+' +                     // task id
-        '\/artifacts\/' +
-        'public/build\/firefox\.*\.tar\.bz2'   // artifact name
+        '^https:\/\/queue\.taskcluster\.net\/v1\/task\/[A-Za-z0-9]+\/' +
+        'artifacts\/public\/build\/.+linux-x86_64\.tar\.bz2$'
       )
     );
   });
 
-  test('fileSuffix specified', async function() {
+  test.skip('fileSuffix specified', async function() {
     let options = {
-      product: 'firefox',
-      os: 'mac64',
+      product: 'b2g-desktop',
+      os: 'linux-x86_64',
       branch: 'mozilla-central',
       fileSuffix: 'crashreporter-symbols.zip'
     };
@@ -33,19 +31,19 @@ suite('detectURL', function() {
     assert.match(
       url,
       new RegExp(
-        'https:\/\/queue.taskcluster.net\/v1\/task\/' +
-        '[A-Za-z0-9-_]+' +                     // task id
-        '\/artifacts\/' +
-        'public/build\/firefox\.*\.crashreporter-symbols\.zip'
+        new RegExp(
+          '^https:\/\/queue\.taskcluster\.net\/v1\/task\/[A-Za-z0-9]+\/' +
+          'artifacts\/public\/build\/.+crashreporter-symbols\.zip$'
+        )
       )
     );
   });
 
   test('bogus fileSuffix', async function() {
     let options = {
-      product: 'firefox',
+      product: 'b2g-desktop',
       os: 'linux-x86_64',
-      branch: 'mozilla-inbound',
+      branch: 'mozilla-central',
       fileSuffix: 'totalrando'
     };
 
