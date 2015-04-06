@@ -15,10 +15,58 @@ suite('main', function() {
       },
 
       verify: function() {
-        let dir = this.args.dest + '/b2g';
-        assert.ok(fs.existsSync(dir), 'No b2g dir in ' + this.args.dest);
+        let dir = `${this.args.dest}/b2g`;
+        assert.ok(fs.existsSync(dir), `No b2g dir in ${this.args.dest}`);
         let contents = fs.readdirSync(dir);
-        assert.include(contents, 'b2g', 'No b2g bin in ' + dir);
+        assert.include(contents, 'b2g', `No b2g bin in ${contents.join(',')}`);
+      }
+    },
+
+    {
+      name: 'mozilla-aurora firefox crash reporter symbols',
+      args: {
+        product: 'firefox',
+        os: 'linux-x86_64',
+        branch: 'mozilla-aurora',
+        fileSuffix: 'crashreporter-symbols.zip'
+      },
+
+      verify: function() {
+        let dir = this.args.dest;
+        let contents = fs.readdirSync(dir);
+        assert.operator(contents.length, '>', 0);
+      }
+    },
+
+    {
+      name: 'osx b2g-desktop debug',
+      args: {
+        product: 'b2g-desktop',
+        os: 'mac64',
+        branch: 'mozilla-central'
+      },
+
+      verify: function() {
+        let dir = `${this.args.dest}/b2g`;
+        assert.ok(fs.existsSync(dir), `No b2g dir in ${this.args.dest}`);
+        let contents = fs.readdirSync(dir);
+        assert.include(contents, 'Contents', `No contents in ${dir}`);
+      }
+    },
+
+    {
+      name: 'linux x86_64 mulet',
+      args: {
+        product: 'mulet',
+        os: 'linux-x86_64',
+        branch: 'mozilla-central'
+      },
+
+      verify: function() {
+        let dir = `${this.args.dest}/firefox`;
+        assert.ok(fs.existsSync(dir), `No mulet dir in ${this.args.dest}`);
+        let contents = fs.readdirSync(dir);
+        assert.include(contents, 'firefox', `No ff in ${contents.join(',')}`);
       }
     }
   ]

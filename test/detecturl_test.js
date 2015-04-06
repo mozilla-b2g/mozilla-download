@@ -13,15 +13,15 @@ suite('detectURL', function() {
     assert.match(
       url,
       new RegExp(
-        '^https:\/\/queue\.taskcluster\.net\/v1\/task\/[A-Za-z0-9]+\/' +
+        '^https:\/\/queue\.taskcluster\.net\/v1\/task\/[A-Za-z0-9_\-]+\/' +
         'artifacts\/public\/build\/.+linux-x86_64\.tar\.bz2$'
       )
     );
   });
 
-  test.skip('fileSuffix specified', async function() {
+  test('fileSuffix specified', async function() {
     let options = {
-      product: 'b2g-desktop',
+      product: 'firefox',
       os: 'linux-x86_64',
       branch: 'mozilla-central',
       fileSuffix: 'crashreporter-symbols.zip'
@@ -32,8 +32,8 @@ suite('detectURL', function() {
       url,
       new RegExp(
         new RegExp(
-          '^https:\/\/queue\.taskcluster\.net\/v1\/task\/[A-Za-z0-9]+\/' +
-          'artifacts\/public\/build\/.+crashreporter-symbols\.zip$'
+          '^https:\/\/queue\.taskcluster\.net\/v1\/task\/[A-Za-z0-9_\-]+\/' +
+          'artifacts\/public\/build\/firefox.+crashreporter-symbols\.zip$'
         )
       )
     );
