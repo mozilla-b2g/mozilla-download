@@ -15,16 +15,9 @@ const TC_CLIENT_OPTS = { timeout: 30 * 1000 };
  */
 export default async function detectURL(options) {
   // Figure out the appropriate index namespace.
-  let nsparts = ['gecko', 'v1', options.branch];
-  if (options.revision) {
-    nsparts.push('revision');
-    nsparts.push(options.revision);
-  } else {
-    nsparts.push('latest');
-  }
-
-  nsparts.push(options.product);
-  nsparts.push(options.debug ? 'debug' : 'opt');
+  let nsparts = ['buildbot', 'branches', options.branch];
+  let buildname = buildinfo.buildname(options);
+  nsparts.push(buildname);
   let ns = nsparts.join('.');
 
   // Find task in namespace.

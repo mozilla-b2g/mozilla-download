@@ -31,11 +31,6 @@ parser.addArgument(['--branch'], {
   defaultValue: 'mozilla-central'
 });
 
-parser.addArgument(['--revision'], {
-  type: 'string',
-  defaultValue: null
-});
-
 parser.addArgument(['--debug'], {
   type: 'int',
   defaultValue: 0

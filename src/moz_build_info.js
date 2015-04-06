@@ -23,19 +23,49 @@ export function archiveFileSuffix(os) {
 }
 
 /**
+ * Options:
+ *
+ *   (String) debug
+ *   (String) product
+ *   (String) os
+ *
  * @return name of build for os.
  */
-export function buildname(os) {
-  switch (os) {
+export function buildname(options) {
+  let result;
+  switch (options.os) {
     case 'mac64':
-      return 'macosx64-debug';
+      result = 'macosx64';
+      break;
     case 'linux-i686':
-      return 'linux-debug';
+      result = 'linux';
+      break;
     case 'linux-x86_64':
-      return 'linux64-debug';
+      result = 'linux64';
+      break;
     case 'win32':
-      return 'win32-debug';
+      result = 'win32';
+      break;
     default:
-      throw new Error('Unsupported os ' + os);
+      throw new Error(`Unsupported os ${options.os}`);
   }
+
+  switch (options.product) {
+    case 'b2g-desktop':
+      result += '_gecko';
+      break;
+    case 'firefox':
+      break;
+    case 'mulet':
+      result += '-mulet';
+      break;
+    default:
+      throw new Error(`Unknown product ${options.product}`);
+  }
+
+  if (options.debug) {
+    result += '-debug';
+  }
+
+  return result;
 }
