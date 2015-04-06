@@ -9,6 +9,12 @@ dmg.mount = Promise.denodeify(dmg.mount);
 dmg.unmount = Promise.denodeify(dmg.unmount);
 ncp = Promise.denodeify(ncp);
 
+const productDirname = {
+  'b2g-desktop': 'b2g',
+  'firefox': 'firefox',
+  'mulet': 'firefox'
+};
+
 /**
  * @fileoverview Extracts firefox or b2g runtime from a compressed format.
  *
@@ -49,7 +55,7 @@ async function extractDmg(options) {
   let files = fs.readdirSync(path);
   let target = files.find(file => /\.app/.test(file));
   let source = path + '/' + target;
-  let dest = options.dest + '/' + options.product;
+  let dest = options.dest + '/' + productDirname[options.product];
   fs.mkdirSync(dest);
   await ncp(source, dest);
   await dmg.unmount(path);
