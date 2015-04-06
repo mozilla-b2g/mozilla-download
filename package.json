@@ -1,6 +1,6 @@
 {
   "name": "mozilla-download",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Download firefox/b2g-desktop runtimes",
   "license": "MIT",
   "main": "bin/mozilla-download",
@@ -16,6 +16,7 @@
 
   "dependencies" : {
     "argparse": "1.0.2",
+    "babel": "4.7.16",
     "debug": "2.1.3",
     "dmg": "0.0.3",
     "lodash": "3.6.0",
@@ -28,7 +29,6 @@
   },
 
   "devDependencies": {
-    "babel": "4.7.16",
     "chai": "2.1.2",
     "mocha": "2.2.1",
     "node-static": "0.7.6"
