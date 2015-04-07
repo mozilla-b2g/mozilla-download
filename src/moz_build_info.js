@@ -18,8 +18,9 @@ export function archiveFiletype(os) {
 /**
  * @return suffix end of filename (including filetype) for build archive.
  */
-export function archiveFileSuffix(os) {
-  return os + '.' + archiveFiletype(os);
+export function archiveFileSuffix(product, os) {
+  let ospart = (product === 'firefox' && os === 'mac64') ? 'mac' : os;
+  return `${ospart}.${archiveFiletype(os)}`;
 }
 
 /**

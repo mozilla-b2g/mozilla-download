@@ -30,9 +30,10 @@ export default async function detectURL(options) {
 
   // Default to downloading the build archive for our os.
   let os = options.os;
+  let product = options.product;
   let suffix = !!options.fileSuffix ?
     options.fileSuffix :
-    buildinfo.archiveFileSuffix(os);
+    buildinfo.archiveFileSuffix(product, os);
 
   // Filter through namespace artifacts.
   let artifact = artifacts.find(art => art.name.indexOf(suffix) !== -1);
