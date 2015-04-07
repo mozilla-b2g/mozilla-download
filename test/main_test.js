@@ -69,14 +69,30 @@ suite('main', function() {
         let contents = fs.readdirSync(dir);
         assert.include(contents, 'firefox', `No ff in ${contents.join(',')}`);
       }
+    },
+
+    {
+      name: 'mozilla-central osx firefox',
+      args: {
+        product: 'firefox',
+        os: 'mac64',
+        branch: 'mozilla-central'
+      },
+
+      verify: function() {
+        let dir = `${this.args.dest}/firefox`;
+        assert.ok(fs.existsSync(dir), `No firefox dir in ${this.args.dest}`);
+        let contents = fs.readdirSync(dir);
+        assert.include(contents, 'Contents', `No contents in ${dir}`);
+      }
     }
   ]
 
   cases.forEach(testCase => {
     test(testCase.name, async function() {
       let os = detectOS();
-      if (os === 'mac64' && isLinux(testCase.args.os) ||
-          isLinux(os) && testCase.args.os === 'mac64') {
+      if (isMac(os) && isLinux(testCase.args.os) ||
+          isLinux(os) && isMac(testCase.args.os)) {
         return;
       }
 
@@ -90,4 +106,8 @@ suite('main', function() {
 
 function isLinux(os) {
   return os.indexOf('linux') !== -1;
+}
+
+function isMac(os) {
+  return os.indexOf('mac') !== -1;
 }
