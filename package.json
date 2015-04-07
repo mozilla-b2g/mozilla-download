@@ -1,6 +1,6 @@
 {
   "name": "mozilla-download",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Download firefox/b2g-desktop runtimes",
   "license": "MIT",
   "main": "bin/mozilla-download",
