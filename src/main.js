@@ -51,14 +51,15 @@ export default async function main(args=parser.parseArgs()) {
     debug('Artifact url', url);
     let path = await download(url, args);
     debug('Download to', path);
-    let extractOpts = { source: path, dest: args.dest, product: args.product };
+    let product = args.product;
+    let extractOpts = { source: path, dest: args.dest, product: product };
     if (args.fileSuffix) {
       let parts = args.fileSuffix.split('.');
       extractOpts.filetype = parts[parts.length - 1];
     } else {
       // They want the regular old build archive.
       let os = args.os;
-      extractOpts.filetype = buildinfo.archiveFiletype(os);
+      extractOpts.filetype = buildinfo.archiveFiletype(os, product);
     }
 
     await extract(extractOpts);

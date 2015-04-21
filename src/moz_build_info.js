@@ -1,7 +1,10 @@
 /**
  * @return filetype the filetype mozilla uses for build archives on a given os.
  */
-export function archiveFiletype(os) {
+export function archiveFiletype(os, product) {
+  if (product.indexOf('emulator') !== -1) {
+    return 'tar.gz';
+  }
   switch (os) {
     case 'mac64':
       return 'dmg';
@@ -20,7 +23,12 @@ export function archiveFiletype(os) {
  */
 export function archiveFileSuffix(product, os) {
   let ospart = (product === 'firefox' && os === 'mac64') ? 'mac' : os;
-  return `${ospart}.${archiveFiletype(os)}`;
+  let filetype = archiveFiletype(os, product);
+  if (product.indexOf('emulator') !== -1) {
+    // emulator doen't have os in filename
+    return filetype;
+  }
+  return `${ospart}.${filetype}`;
 }
 
 /**
@@ -59,6 +67,13 @@ export function buildname(options) {
       break;
     case 'mulet':
       result += '-mulet';
+      break;
+    case 'emulator':
+    case 'emulator-ics':
+      result = 'emulator-ics';
+      break;
+    case 'emulator-kk':
+      result = 'emulator-kk';
       break;
     default:
       throw new Error(`Unknown product ${options.product}`);
