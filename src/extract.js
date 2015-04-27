@@ -34,6 +34,7 @@ export default async function extract(options) {
     case 'dmg':
       await extractDmg(options);
       break;
+    case 'tar.gz':
     case 'tar.bz2':
       await extractTarball(options);
       break;

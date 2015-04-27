@@ -53,4 +53,21 @@ suite('detectURL', function() {
       assert.equal(error.message, 'Could not find appropriate artifact');
     }
   });
+
+  test('emulator-kk', async function() {
+    let options = {
+      product: 'emulator-kk',
+      os: 'linux-x86_64',
+      branch: 'mozilla-central'
+    };
+
+    let url = await detectURL(options);
+    assert.match(
+      url,
+      new RegExp(
+        '^https:\/\/queue\.taskcluster\.net\/v1\/task\/[A-Za-z0-9_\-]+\/' +
+        'artifacts\/public\/build\/emulator\.tar\.gz$'
+      )
+    );
+  });
 });
