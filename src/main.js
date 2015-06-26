@@ -4,6 +4,7 @@ import detectOS from './detectos';
 import detectURL from './detecturl';
 import download from './download';
 import extract from './extract';
+import { readdir } from 'mz/fs';
 import * as buildinfo from './moz_build_info';
 
 debug = debug('mozilla-download/main');
@@ -47,6 +48,18 @@ parser.addArgument(['dest'], {
 
 export default async function main(args=parser.parseArgs()) {
   try {
+    // Bail if thing exists
+    try {
+      let contents = await readdir(args.dest);
+      if (contents && contents.length) {
+        // We have dest dir and it has contents
+        debug('Found b2g at dest', args.dest);
+        return;
+      }
+    } catch (error) {
+    }
+
+    debug('No b2g found. Will download to', args.dest);
     let url = await detectURL(args);
     debug('Artifact url', url);
     let path = await download(url, args);

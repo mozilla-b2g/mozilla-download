@@ -7,6 +7,18 @@ import { tempdir } from '../src/temp';
 suite('main', function() {
   let cases = [
     {
+      name: 'already exists',
+      args: {
+        product: 'b2g-desktop',
+        os: 'linux-x86_64',
+        branch: 'mozilla-central',
+        dest: `${__dirname}/fixtures/b2g`
+      },
+      verify: function() {
+        assert.deepEqual(fs.readdirSync(`${__dirname}/fixtures/b2g`), ['random']);
+      }
+    },
+    {
       name: 'mozilla-central linux-x86_64 b2g-desktop opt',
       args: {
         product: 'b2g-desktop',
@@ -97,7 +109,7 @@ suite('main', function() {
       }
 
       let dest = await tempdir();
-      testCase.args.dest = dest;
+      testCase.args.dest = testCase.args.dest || dest;
       await main(testCase.args);
       testCase.verify();
     });
