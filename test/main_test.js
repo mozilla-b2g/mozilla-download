@@ -12,7 +12,7 @@ suite('main', function() {
         product: 'b2g-desktop',
         os: 'linux-x86_64',
         branch: 'mozilla-central',
-        dest: `${__dirname}/fixtures/b2g`
+        dest: `${__dirname}/fixtures`
       },
       verify: function() {
         assert.deepEqual(fs.readdirSync(`${__dirname}/fixtures/b2g`), ['random']);

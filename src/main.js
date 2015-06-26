@@ -3,7 +3,7 @@ import debug from 'debug';
 import detectOS from './detectos';
 import detectURL from './detecturl';
 import download from './download';
-import extract from './extract';
+import { extract, productDirname } from './extract';
 import { readdir } from 'mz/fs';
 import * as buildinfo from './moz_build_info';
 
@@ -47,19 +47,20 @@ parser.addArgument(['dest'], {
 });
 
 export default async function main(args=parser.parseArgs()) {
+  let dirname = productDirname[args.product];
   try {
-    // Bail if thing exists
     try {
+      // Bail if thing exists
       let contents = await readdir(args.dest);
-      if (contents && contents.length) {
-        // We have dest dir and it has contents
-        debug('Found b2g at dest', args.dest);
+      if (dirname && contents && contents.indexOf(dirname) !== -1) {
+        // dest dir includes product
+        debug(`Found ${dirname} at dest ${args.dest}`);
         return;
       }
     } catch (error) {
     }
 
-    debug('No b2g found. Will download to', args.dest);
+    debug(`No ${dirname} found. Will download to ${args.dest}`);
     let url = await detectURL(args);
     debug('Artifact url', url);
     let path = await download(url, args);
