@@ -39,6 +39,7 @@ parser.addArgument(['--debug'], {
 
 parser.addArgument(['--file-suffix'], {
   type: 'string',
+  help: 'File extensions for extraction of files (ie .tar.bz2, .dmg, .zip)',
   dest: 'fileSuffix'
 });
 
