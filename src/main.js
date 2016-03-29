@@ -29,6 +29,7 @@ parser.addArgument(['--os'], {
 
 parser.addArgument(['--branch'], {
   type: 'string',
+  help: 'Release version (ie mozilla-central)',
   defaultValue: 'mozilla-central'
 });
 
