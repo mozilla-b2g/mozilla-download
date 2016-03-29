@@ -29,6 +29,7 @@ parser.addArgument(['--os'], {
 
 parser.addArgument(['--branch'], {
   type: 'string',
+  help: 'Release version (ie mozilla-central)',
   defaultValue: 'mozilla-central'
 });
 
@@ -39,6 +40,7 @@ parser.addArgument(['--debug'], {
 
 parser.addArgument(['--file-suffix'], {
   type: 'string',
+  help: 'File extensions for extraction of files (ie .tar.bz2, .dmg, .zip)',
   dest: 'fileSuffix'
 });
 
