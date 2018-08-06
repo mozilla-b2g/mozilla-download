@@ -1,5 +1,7 @@
 # Mozilla Download
 
+## DEPRECATED: please use [MozDownload](https://github.com/mozilla/mozdownload).
+
 [![Build Status](https://travis-ci.org/mozilla-b2g/mozilla-download.png?branch=master)](https://travis-ci.org/mozilla-b2g/marionette-download)
 
 Helper utility for downloading various mozilla products. Handles operating system detection (win32, mac, linux-i686, linux-x86\_64) and extraction of files (.tar.bz2, .dmg, .zip).
