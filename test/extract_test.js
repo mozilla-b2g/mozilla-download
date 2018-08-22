@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { exec } from 'mz/child_process';
-import extract from '../src/extract';
+import { extract } from '../src/extract';
 import { tempdir } from '../src/temp';
 
 suite('extract', function() {

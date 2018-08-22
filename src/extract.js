@@ -9,11 +9,11 @@ dmg.mount = Promise.denodeify(dmg.mount);
 dmg.unmount = Promise.denodeify(dmg.unmount);
 ncp = Promise.denodeify(ncp);
 
-const productDirname = {
+export let productDirname = Object.freeze({
   'b2g-desktop': 'b2g',
   'firefox': 'firefox',
   'mulet': 'firefox'
-};
+});
 
 /**
  * @fileoverview Extracts firefox or b2g runtime from a compressed format.
@@ -25,7 +25,7 @@ const productDirname = {
  *   (String) source
  *   (String) dest
  */
-export default async function extract(options) {
+export async function extract(options) {
   let dest = options.dest;
   let path = await tempdir();
   // Extract to temporary location.
